@@ -1,0 +1,34 @@
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        # Monotonically increasing stack
+        result = [0] * len(temperatures)
+        stack = []
+        
+        for i in range(len(temperatures)):
+            # We check the stack, if it is not empty and 
+            # the value on the top of the stack[-1] is less than 
+            # the current value, then for stack[-1] we found a temp greater than it.
+            while stack and stack[-1][0] < temperatures[i]:
+                val, idx = stack.pop()
+                result[idx] = i - idx
+            
+            # We add the current temp to the stack.
+            stack.append([temperatures[i], i])
+        
+        return result
+        
+        
+        # Brute Force Approach T: O(n^2)
+        # res = []
+
+        # for i in range(len(temperatures)):
+        #     found_warmer = False
+        #     for j in range(i + 1, len(temperatures)):
+        #         if temperatures[j] > temperatures[i]:
+        #             res.append(j - i)
+        #             found_warmer = True
+        #             break
+        #     if not found_warmer:
+        #         res.append(0)
+        
+        # return res
